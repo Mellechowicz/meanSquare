@@ -41,7 +41,7 @@ for yaml_file in cmdLine('files'):
             np.savetxt(yaml_file[:-5]+'.txt',displacements)
 
             if not cmdLine('plot'):
-                break
+                continue
     
             import matplotlib.pyplot as plt
             fig,ax = plt.subplots()
