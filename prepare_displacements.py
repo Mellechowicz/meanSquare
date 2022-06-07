@@ -4,8 +4,6 @@ import numpy as np
 import yaml
 
 import argv
-# argv[1]: mean_sqr_disp yaml file
-# argv[2]: atom of interest
 
 def symmetric_matix(vector):
     """
