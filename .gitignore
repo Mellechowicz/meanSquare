@@ -1,3 +1,7 @@
+# Plots & and working files/dirs
+*.png
+___*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
