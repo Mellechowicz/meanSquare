@@ -47,6 +47,9 @@ for idx,yaml_file in enumerate(cmdLine('files')):
 
             if cmdLine('plot'):
                 import matplotlib.pyplot as plt
+                if cmdLine('latex'):
+                    plt.rcParams.update({ "text.usetex": True,
+                                          "font.family": "serif"})
                 fig,ax = plt.subplots()
                 labels = cmdLine('labels')
                 diff   = len(atoms)-len(labels) 
@@ -59,9 +62,16 @@ for idx,yaml_file in enumerate(cmdLine('files')):
                 if not cmdLine('qha'):
                     ax.set_title("Mean-square displacement (constant volume)")
                 else:
-                    ax.set_title("Mean-square displacement (V=%9.0f A^3)"%fileVolumes[idx])
-                ax.set_xlabel("temperature, T (K)")
-                ax.set_ylabel("displacement, d^2 (A^2)")
+                    if cmdLine('latex'):
+                        ax.set_title(r"Mean-square displacement at $V$= "+"%9.0f"%fileVolumes[idx]+r" (\AA{}$^3$)")
+                    else:
+                        ax.set_title("Mean-square displacement (V=%9.0f A^3)"%fileVolumes[idx])
+                if cmdLine('latex'):
+                    ax.set_xlabel(r"temperature, $T$ (K)")
+                    ax.set_ylabel(r"displacement, $d^2$ (\AA{}$^2$)")
+                else:
+                    ax.set_xlabel("temperature, T (K)")
+                    ax.set_ylabel("displacement, d^2 (A^2)")
                 ax.grid()
                 ax.legend()
                 plt.savefig(yaml_file[:-5]+'.png',dpi=300)
@@ -86,16 +96,27 @@ if cmdLine('qha'):
     qhaDisplacements = np.array(qhaDisplacements)
     if cmdLine('plot'):
         import matplotlib.pyplot as plt
+        if cmdLine('latex'):
+            plt.rcParams.update({ "text.usetex": True,
+                                  "font.family": "serif"})
         fig,ax = plt.subplots()
         for i,label in enumerate(labels):
             ax.plot(qhaDisplacements[:,0],qhaDisplacements[:,i+2],label=label)
-        ax.set_title("Mean-square displacement (Quasiharmonic approximation)")
-        ax.set_xlabel("temperature, T (K)")
-        ax.set_ylabel("displacement, d^2 (A^2)")
+        if cmdLine('latex'):
+            ax.set_title (r"Mean-square displacement (Quasiharmonic approximation)")
+            ax.set_xlabel(r"temperature, $T$ (K)")
+            ax.set_ylabel(r"displacement, $d^2$ (\AA{}$^2$)")
+        else:
+            ax.set_title( "Mean-square displacement (Quasiharmonic approximation)")
+            ax.set_xlabel("temperature, T (K)")
+            ax.set_ylabel("displacement, d^2 (A^2)")
 
         ax2 = ax.twinx()
         ax2.plot(qhaDisplacements[:,0],qhaDisplacements[:,1],'--',c='k',label='volume')
-        ax2.set_ylabel("volume, V (A^3)")
+        if cmdLine('latex'):
+            ax2.set_ylabel(r"volume, $V$ (\AA{}$^3$)")
+        else:
+            ax2.set_ylabel("volume, V (A^3)")
         ax.plot([],[],'--',c='k',label='cell volume') # Just for the legend
         limits = ax2.get_ylim()
         limits = (1.3*limits[0]-0.3*limits[1],limits[1]) # so that volume doesn't overlap with the displacements

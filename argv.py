@@ -36,6 +36,8 @@ class Options:
     def add_arguments_matplotlib(self):
         self.parser.add_argument('--labels','-l',default=[],nargs='+',
                                  help="a set of labels in the resultant figure")
+        self.parser.add_argument('--latex','-L', action='store_true',
+                                 help='use LaTeX to process text in the figs')
     def prepare(self):
         self.fix_files()
         self.fix_indexes()
