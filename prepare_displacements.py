@@ -16,6 +16,8 @@ def symmetric_matix(vector):
 
 cmdLine = argv.Options()
 
+print(cmdLine)
+print(cmdLine('dpi'))
 if cmdLine('qha'):
     allDisplacements = []
     fileVolumes = np.loadtxt(cmdLine('e_v'))[:,0]
@@ -74,7 +76,7 @@ for idx,yaml_file in enumerate(cmdLine('files')):
                     ax.set_ylabel("displacement, d^2 (A^2)")
                 ax.grid()
                 ax.legend()
-                plt.savefig(yaml_file[:-5]+'.png',dpi=300)
+                plt.savefig(yaml_file[:-5]+'.png',dpi=cmdLine('dpi'))
 
             if cmdLine('qha'):
                 allDisplacements.append(displacements)
@@ -124,4 +126,4 @@ if cmdLine('qha'):
 
         ax.grid()
         ax.legend()
-        plt.savefig('qha_displacement.png',dpi=300)
+        plt.savefig('qha_displacement.png',dpi=cmdLine('dpi'))

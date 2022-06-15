@@ -20,7 +20,7 @@ class Options:
     def add_arguments_input(self):
         self.parser.add_argument('--files','-f',default=["thermal_displacement_matrices.yaml"],nargs='+',
                                  help="a set of thermal_displacement_matrices.yaml files")
-        self.parser.add_argument('--indexes','-i',default=["-1"],nargs='+',
+        self.parser.add_argument('--indexes','-i',default=[-1],nargs='+',type=int,
                                  help="index of atom in supercell (staring from 0), default: last atom")
         self.parser.add_argument('--e-v','-V',default="e-v.dat",nargs=1,
                                  help="phonopy \'e-v.dat\' file corresponding to thermal displacement files")
@@ -38,9 +38,10 @@ class Options:
                                  help="a set of labels in the resultant figure")
         self.parser.add_argument('--latex','-L', action='store_true',
                                  help='use LaTeX to process text in the figs')
+        self.parser.add_argument('--dpi',type=int,default=256,
+                                 help="dpi of the resultant figure")
     def prepare(self):
         self.fix_files()
-        self.fix_indexes()
 
     def fix_files(self):
         self.files = []
@@ -50,15 +51,6 @@ class Options:
             else:
                 print("Ignoring file %s"%f)
         self.opt.__dict__['files'] = self.files
-
-    def fix_indexes(self):
-        self.indexes= []
-        for i in self.opt.__dict__['indexes']:
-            try:
-                self.indexes.append(int(i))
-            except ValueError:
-                print("Ignoring index %s"%i)
-        self.opt.__dict__['indexes'] = self.indexes
 
     def __call__(self, key):
         return self.opt.__dict__[key]
