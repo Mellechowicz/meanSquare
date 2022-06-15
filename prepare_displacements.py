@@ -16,8 +16,6 @@ def symmetric_matix(vector):
 
 cmdLine = argv.Options()
 
-print(cmdLine)
-print(cmdLine('dpi'))
 if cmdLine('qha'):
     allDisplacements = []
     fileVolumes = np.loadtxt(cmdLine('e_v'))[:,0]
