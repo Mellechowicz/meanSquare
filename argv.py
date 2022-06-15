@@ -18,16 +18,23 @@ class Options:
         self.prepare()
 
     def add_arguments_input(self):
-        self.parser.add_argument('--files','-F',default=["thermal_displacement_matrices.yaml"],nargs='+',
+        self.parser.add_argument('--files','-f',default=["thermal_displacement_matrices.yaml"],nargs='+',
                                  help="a set of thermal_displacement_matrices.yaml files")
-        self.parser.add_argument('--indexes','-I',default=["-1"],nargs='+',
-                                 help="")
+        self.parser.add_argument('--indexes','-i',default=["-1"],nargs='+',
+                                 help="index of atom in supercell (staring from 0), default: last atom")
+        self.parser.add_argument('--e-v','-V',default="e-v.dat",nargs=1,
+                                 help="phonopy \'e-v.dat\' file corresponding to thermal displacement files")
+        self.parser.add_argument('--volume-temperature','-v',default="volume-temperature.dat",nargs=1,
+                                 help="phonopy \'volume-temperature.dat\' file")
+
     def add_arguments_output(self):
         self.parser.add_argument('--plot','-p', action='store_true',
              help='creates a plot of displacement vs. temperature')
+        self.parser.add_argument('--qha','-q', action='store_true',
+             help='use phonPy output of quasiharmonic approximation ')
 
     def add_arguments_matplotlib(self):
-        self.parser.add_argument('--labels','-L',default=[],nargs='+',
+        self.parser.add_argument('--labels','-l',default=[],nargs='+',
                                  help="a set of labels in the resultant figure")
     def prepare(self):
         self.fix_files()
