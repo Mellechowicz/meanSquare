@@ -94,6 +94,7 @@ if cmdLine('qha'):
         interpolation = np.array([ interp1d(fileVolumes,displacements[:,j])(volume) for j,_ in enumerate(displacements[0,:]) ])
         qhaDisplacements.append([T,volume,*interpolation])
     qhaDisplacements = np.array(qhaDisplacements)
+    np.savetxt("qha_displacements.txt",qhaDisplacements,header="# temperature volume  "+''.join([label+"  " for label in labels]))
     if cmdLine('plot'):
         import matplotlib.pyplot as plt
         if cmdLine('latex'):
